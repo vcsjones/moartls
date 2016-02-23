@@ -4,16 +4,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     chrome.tabs.query({active: true,/* currentWindow: true*/ }, function(activeTabs) {
     	if (activeTabs.length < 1) return; // impossible?
-   
-   
     	
     	for (var i=0; i<activeTabs.length; i++)
     	{
-      	alert("Tab:\n" + JSON.stringify(activeTabs[i]) + activeTabs[i].url + activeTabs[i].title);
+      		alert("Tab:\n" + JSON.stringify(activeTabs[i]) + activeTabs[i].url + activeTabs[i].title);
       	// https://developer.chrome.com/extensions/tabs#type-Tab
       	// https://chrome.google.com/webstore/detail/chrome-dev-editor-develop/pnoffddplpippgcfjdhbmhkofpnaalpg?hl=en-US
       	// https://developer.chrome.com/extensions/activeTab
-      }
+      	}
     /*
       d = document;
 
