@@ -1,10 +1,13 @@
 {
+// https://developer.chrome.com/extensions/manifest
+
   "manifest_version": 2,
 
   "name": "moarTLS Analyzer",
-  "description": "This extension analyzes a page for unsecure references",
-  "version": "1.0",
-
+  "description": "Analyze the page for unsecure url references.",
+  "version": "0.2",
+  "author": "Eric Lawrence (@ericlaw)",
+  
 //  https://developer.chrome.com/extensions/browserAction
   "browser_action": {
      "default_icon": {
@@ -14,8 +17,16 @@
    "default_popup": "popup.html"
   },
   
+ "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  
+  // https://developer.chrome.com/extensions/declarativeContent
+  
   // https://developer.chrome.com/extensions/declare_permissions#manifest
   "permissions": [
-   	"activeTab"
+   	"activeTab",
+   	"downloads"
    ]
 }

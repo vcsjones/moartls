@@ -3,9 +3,16 @@
   <head>
     <title>moarTLS Analyzer</title>
     <script src="popup.js"></script>
+	<style type="text/css">
+      html { width:400px; height:200px; }
+   //   body { height: 480px; }
+    </style>
   </head>
   <body>
     <h1>moarTLS Analyzer</h1>
-    <button id="checkPage">Check this page</button>
+    <!--button id="checkPage">done</button-->
+	<div style="font-family: monospace; font-size: large" id="txtStatus">Analyzing page...</div>
+	<div style="font-family: monospace; font-size: small" id="txtUnsecureList"></div>
+
   </body>
 </html>
