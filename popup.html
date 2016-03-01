@@ -4,15 +4,18 @@
     <title>moarTLS Analyzer</title>
     <script src="popup.js"></script>
     <style type="text/css">
-        html { width:400px; height:200px; }
+        html { width:400px; height:200px;}
+        body { padding: 4px; margin: 2px; overflow:auto; }
+        h1 { text-align: center; padding: 2px; margin: 0px; }
         a { font-family: Verdana; font-size:large; text-decoration:none; }
-        a:hover { text-decoration: underline } 
+        a:hover { text-decoration: underline }
+        a:focus { text-decoration: underline; border: none; }
     </style>
   </head>
   <body>
     <h1>moarTLS Analyzer</h1>
     <a title="View on SSLLabs" style="" id="lnkDomain"></a>
-    <div style="font-family: monospace; font-size: large" id="txtStatus">Analyzing page...</div>
+    <div style="font-family: monospace; font-size: large; margin-top: 10px;" id="txtStatus">Analyzing page...</div>
     <div style="font-family: monospace; font-size: small" id="txtUnsecureList"></div>
   </body>
 </html>

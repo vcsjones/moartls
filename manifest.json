@@ -1,27 +1,34 @@
 {
-
   "manifest_version": 2,
   "name": "moarTLS Analyzer",
-  "description": "Analyze the page for unsecure url references.",
-  "version": "0.2",
+  "short_name": "moarTLS",
+  "description": "Analyzes webpages for non-secure link references.",
+  "version": "0.1.0.2",
   "author": "Eric Lawrence (@ericlaw)",
-  
+
+  "icons": { 
+           "16": "icon16.png",
+           "32": "icon32.png",
+           "48": "icon48.png",
+          "128": "icon128.png" 
+           },
+
   "browser_action": {
      "default_icon": {
-            "19": "icon.png",
-            "38": "icon.png"
+            "19": "icon19.png",
+            "38": "icon38.png"
           },
    "default_popup": "popup.html"
   },
-  
+
  "background": {
     "scripts": ["background.js"],
     "persistent": false
   },
-  
+
   "permissions": [
-   	"activeTab", 
-   	"<all_urls>",
-   	"downloads"
+    "activeTab",
+    "<all_urls>",
+    "downloads"
    ]
 }

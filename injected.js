@@ -12,7 +12,7 @@ if ((document.location.protocol == "http:") ||
         var sProtocol = thisLink.protocol.toLowerCase();
         if ((sProtocol == "http:") || (sProtocol == "ftp:")) {
             arrUnsecure.push(thisLink.href);
-            thisLink.style.backgroundColor = "#cc6666";
+            thisLink.style.backgroundColor = "#DE6A6A";
             thisLink.style.borderRadius = "4px";
             thisLink.style.border = "2px solid red";
             thisLink.style.padding = "6px 6px 6px 6px";
