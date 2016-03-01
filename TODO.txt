@@ -1,6 +1,24 @@
 1. Attempt connection to the domains over https and mark the ones with functioning https differently
 2. Take note of target using HSTS
-3. Flag insecure images
-
-
+3. Flag insecure images, add NOSY image
 4. Hash file downloads (https://developer.chrome.com/extensions/nativeMessaging#native-messaging-host)
+5. Large Icon for Settings page
+
+
+
+You should always provide a 128x128 icon; it's used during installation and by the Chrome Web Store. Extensions should also provide a 48x48 icon, which is used in the extensions management page (chrome://extensions). You can also specify a 16x16 icon to be used as the favicon for an extension's pages.
+
+Icons should generally be in PNG format, because PNG has the best support for transparency. They can, however, be in any format supported by WebKit, including BMP, GIF, ICO, and JPEG. Here's an example of specifying the icons:
+
+"icons": { "16": "icon16.png",
+           "48": "icon48.png",
+          "128": "icon128.png" },
+You may provide icons of any other size you wish, and Chrome will attempt to use the best size where appropriate. For example, Windows often requires 32-pixel icons, and if the app includes a 32-pixel icon, Chrome will choose that instead of shrinking a 48-pixel icon down. However, you should ensure that all of your icons are square, or unexpected behavior may result.
+
+https://developer.chrome.com/webstore/branding
+
+https://developer.chrome.com/webstore/publish?hl=en-US#step2
+
+Applications and themes require at least one screenshot. Extensions may have no screenshots, but such extensions won't be shown in the gallery.
+Provide preferably 4 or 5 screenshots of your app (up to a maximum of 5). If your app supports multiple locales, you can provide locale-specific screenshots. Your screenshot should have square corners and no padding (full bleed).
+We prefer screenshots to be 1280x800 pixels in size, as they will be used in future high dpi displays. Currently, the Chrome Web Store will downscale all screenshots to 640x400, so if your screenshots will not look good downscaled (eg. have a lot of text) or if 1280x800 is too big for your app (screenshot of low resolution game), we also support 640x400 pixels screenshots.

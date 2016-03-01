@@ -8,6 +8,9 @@ chrome.downloads.onCreated.addListener(function(item) {
     // Note: The download manager "creates" downloads for previously-downloaded items
     // So we actually need a different thing
     if (item.state == "in_progress") {
-        alert("Download of: \n"+JSON.stringify(item.url) + "\n" + item.state); // "in_progress"
+        if (item.url.substring(0, 5) == "http:")
+        {
+            alert("_WARNING_\nNon-secure download of: \n" + item.url);
+        }
     }
 });
