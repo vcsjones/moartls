@@ -18,7 +18,8 @@
             "19": "icon19.png",
             "38": "icon38.png"
           },
-   "default_popup": "popup.html"
+   "default_popup": "popup.html",
+   "default_title": "Mark non-secure links"
   },
 
  "background": {
