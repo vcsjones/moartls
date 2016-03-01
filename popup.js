@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         var sProt = oUri.protocol.toLowerCase();
 
-        if (sProt == "chrome:")
+        if (sProt.indexOf("chrome") == 0)
         {
             document.getElementById("txtStatus").textContent = "Unfortunately, Chrome's internal pages cannot be analyzed.";
             return;
