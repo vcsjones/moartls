@@ -1,6 +1,6 @@
 // Entire frame is insecure?
-if ((document.location.protocol == "http:") ||
-    (document.location.protocol == "ftp:")) 
+var sProt = document.location.protocol.toLowerCase();
+if ((sProt === "http:") || (sProt === "ftp:")) 
 {
     document.body.style.backgroundColor="#E04343";
 }
@@ -12,9 +12,9 @@ for (var i = 0; i < lnks.length; i++) {
   var sProtocol = thisLink.protocol.toLowerCase();
   if ((sProtocol == "http:") || (sProtocol == "ftp:")) {
     arrUnsecure.push(thisLink.href);
-    thisLink.style.backgroundColor = "#DE6A6A";
+    thisLink.style.backgroundColor = "rgba(222, 106, 106, 0.6)";
     thisLink.style.borderRadius = "4px";
-    thisLink.style.border = "2px solid red";
+    thisLink.style.border = "2px groove red";
     thisLink.style.padding = "6px 6px 6px 6px";
     thisLink.style.margin = "3px 3px 3px 3px";
     thisLink.title = lnks[i].protocol + "//" + lnks[i].hostname;
@@ -22,6 +22,4 @@ for (var i = 0; i < lnks.length; i++) {
 }
 
 //https://developer.chrome.com/extensions/messaging
-chrome.runtime.sendMessage({cLinks: lnks.length, unsecure: arrUnsecure },
- null //function(response) {  console.log(response.farewell);}
-);
+chrome.runtime.sendMessage({cLinks: lnks.length, unsecure: arrUnsecure }, null);
