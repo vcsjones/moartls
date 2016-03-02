@@ -70,8 +70,13 @@ function checkForHTTPS(lnk)
         (lnk.title.substring(0,11) == "[Checking] ")) return;
     lnk.title = "[Checking] Using XmlHttpRequest to check for a HTTPS version of this url...";
     var oReq = new XMLHttpRequest();
-    oReq.addEventListener("load",  function() { lnk.textContent = lnk.textContent.substring(11); lnk.style='color: #2CB144'; lnk.title = "This URL is available at HTTPS"; }, false);
-    oReq.addEventListener("error", function() { lnk.textContent = lnk.textContent.substring(11); lnk.style='color: #E04343'; lnk.title = "This URL is available via HTTPS"; }, false);
+    oReq.addEventListener("load",  function() { 
+            lnk.classList.add("isHTTPSyes");
+            var sHSTS = oReq.getResponseHeader("Strict-Transport-Security"); lnk.textContent = lnk.textContent.substring(11); 
+            lnk.title = "This URL is available at HTTPS" + ((sHSTS) ? " + HSTS!" : ""); 
+            if (sHSTS) lnk.classList.add("isHSTS"); 
+            }, false);
+    oReq.addEventListener("error", function() { lnk.textContent = lnk.textContent.substring(11); lnk.classList.add("isHTTPSno"); lnk.title = "This URL is NOT available by simply changing the protocol to HTTPS."; }, false);
     var oUri = document.createElement("a");
     oUri.href = lnk.textContent;
     oUri.protocol = "https:";

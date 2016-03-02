@@ -1,6 +1,6 @@
-1. Attempt connection to the domains over https and mark the ones with functioning https differently
-2. Take note of target using HSTS
-3. Flag insecure images, add NOSY image
+1. Check for FORMS
+2. Flag/flip insecure images
+3. Add NOSY image
 4. Hash file downloads (https://developer.chrome.com/extensions/nativeMessaging#native-messaging-host)
 
 You should always provide a 128x128 icon; it's used during installation and by the Chrome Web Store. 
