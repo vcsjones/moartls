@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+//    document.getElementById('lnkCopy').addEventListener('click', function() {}    }, false);
+
+
     chrome.tabs.query({active: true, currentWindow: true /**/ }, function(activeTabs) {
         if (activeTabs.length < 1) return; // impossible?
             /*for (var i=0; i<activeTabs.length; i++) {
@@ -9,29 +12,29 @@ document.addEventListener('DOMContentLoaded', function() {
             // https://developer.chrome.com/extension
             s/activeTab
             }*/
-    
+
         var oUri = document.createElement("a");
         oUri.href = activeTabs[0].url;
-    
+
         var sProt = oUri.protocol.toLowerCase();
-    
+
         if (sProt.indexOf("chrome") == 0)
         {
             document.getElementById("txtStatus").textContent = "Unfortunately, Chrome's internal pages cannot be analyzed.";
             return;
         }
-    
+
         // http://stackoverflow.com/questions/11613371/chrome-extension-content-script-on-https-chrome-google-com-webstore
         if (oUri.href.toLowerCase().indexOf("https://chrome.google.com/webstore/") == 0)
         {
             document.getElementById("txtStatus").textContent = "Unfortunately, Chrome's Web Store pages cannot be analyzed.";
             return;
         }
-    
+
         var lnkDomain = document.getElementById("lnkDomain");
         lnkDomain.href = "https://www.ssllabs.com/ssltest/analyze.html?d=" + escape(oUri.hostname);
         lnkDomain.innerText = (((sProt == "http:") || (sProt =="ftp:")) ? (sProt.slice(0,-1)+"/") : "") + oUri.hostname;
-    
+
         // https://developer.chrome.com/extensions/tabs#method-executeScript
         // https://developer.chrome.com/extensions/content_scripts#pi
         chrome.tabs.executeScript(null, {file:"injected.js", allFrames: true, runAt:"document_idle"}, function() {
@@ -41,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('moarTLS error injecting script : \n' + chrome.runtime.lastError.message);
             }
         });
-    
+
     });
 }, false);
 
@@ -61,6 +64,23 @@ function computeDisplayString(cInsecure, cTotal)
     return (cInsecure + " of " + cTotal + " links " + ((cInsecure == 1) ? "is" : "are") + " non-secure.");
 }
 
+function checkForHTTPS(lnk)
+{
+    if ((lnk.title.substring(0,11) == "This URL is") || 
+        (lnk.title.substring(0,11) == "[Checking] ")) return;
+    lnk.title = "[Checking] Using XmlHttpRequest to check for a HTTPS version of this url...";
+    var oReq = new XMLHttpRequest();
+    oReq.addEventListener("load",  function() { lnk.textContent = lnk.textContent.substring(11); lnk.style='color: #2CB144'; lnk.title = "This URL is available at HTTPS"; }, false);
+    oReq.addEventListener("error", function() { lnk.textContent = lnk.textContent.substring(11); lnk.style='color: #E04343'; lnk.title = "This URL is available via HTTPS"; }, false);
+    var oUri = document.createElement("a");
+    oUri.href = lnk.textContent;
+    oUri.protocol = "https:";
+    lnk.textContent = "[Checking] " + lnk.textContent;
+    oReq.open("HEAD", oUri.href);
+    oReq.send();
+}
+
+
 var cTotalLinks = 0;
 var cTotalUnsecure = 0;
 
@@ -79,7 +99,7 @@ chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {
     if (!listUnsecure)
     {
         listUnsecure = document.createElement("ol");
-        listUnsecure.id = "divUnsecureList";
+        listUnsecure.id = "olUnsecureList";
         document.getElementById("divUnsecureList").appendChild(listUnsecure);
     }
 
@@ -87,6 +107,15 @@ chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {
         var listItem = document.createElement("li");
         var text = document.createTextNode(request.unsecure[i]);
         listItem.appendChild(text);
+        listItem.addEventListener('click', function(e) { 
+
+            if (e.ctrlKey || (1 == e.button))
+            {
+                checkForHTTPS(this);
+                return;
+            }
+
+        }, false);
         listUnsecure.appendChild(listItem);
     }
     /*alert(sender.tab ? "from a content script:" + sender.tab.url : "from the extension");*/

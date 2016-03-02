@@ -5,7 +5,11 @@
   "description": "Analyzes webpages for non-secure link references.",
   "version": "0.1.1.0",
   "author": "Eric Lawrence (@ericlaw)",
-  "options_page": "options.html",
+  "options_ui": {
+    "page": "options.html",
+    "chrome_style": true
+  },
+
   "minimum_chrome_version": "48",
 
   "icons": { 
