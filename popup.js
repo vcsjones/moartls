@@ -64,6 +64,8 @@ function computeDisplayString(cInsecure, cTotal)
     return (cInsecure + " of " + cTotal + " links " + ((cInsecure == 1) ? "is" : "are") + " non-secure.");
 }
 
+
+// TODO: Switch to FETCH and handle cases of redirections
 function checkForHTTPS(lnk)
 {
     if ((lnk.title.substring(0,11) == "This URL is") || 
@@ -116,7 +118,7 @@ chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {
         listItem.appendChild(text);
         listItem.addEventListener('click', function(e) { 
 
-            if (e.ctrlKey || (1 == e.button))
+            if (e.altKey || (1 == e.button))
             {
                 checkForHTTPS(this);
                 return;
