@@ -7,8 +7,11 @@ if ((sProt === "http:") || (sProt === "ftp:"))
 
 var lnks = document.querySelectorAll("a[href]");
 var arrUnsecure = [];
+var cLinks = 0;
 for (var i = 0; i < lnks.length; i++) {
   var thisLink = lnks[i];
+  if (thisLink.getAttribute("href")[0] === "#") continue; // Not a cross-page 'link'
+  cLinks++;
   var sProtocol = thisLink.protocol.toLowerCase();
   if ((sProtocol == "http:") || (sProtocol == "ftp:")) {
     arrUnsecure.push(thisLink.href);
@@ -22,4 +25,4 @@ for (var i = 0; i < lnks.length; i++) {
 }
 
 //https://developer.chrome.com/extensions/messaging
-chrome.runtime.sendMessage({cLinks: lnks.length, unsecure: arrUnsecure }, null);
+chrome.runtime.sendMessage({cLinks: cLinks, unsecure: arrUnsecure }, null);
