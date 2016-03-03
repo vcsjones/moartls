@@ -2,6 +2,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 //    document.getElementById('lnkCopy').addEventListener('click', function() {}    }, false);
 
+    {
+        var lnkVersion = document.getElementById("lblVersion");
+        lnkVersion.textContent = "v"+chrome.runtime.getManifest().version;
+        lnkVersion.addEventListener("click", function() { chrome.runtime.openOptionsPage(); }, false);
+    }
+
     chrome.tabs.query({active: true, currentWindow: true /**/ }, function(activeTabs) {
         if (activeTabs.length < 1) return; // impossible?
             /*for (var i=0; i<activeTabs.length; i++) {
@@ -31,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         var lnkDomain = document.getElementById("lnkDomain");
-        lnkDomain.href = "https://www.ssllabs.com/ssltest/analyze.html?d=" + escape(oUri.hostname);
+        lnkDomain.href = "https://dev.ssllabs.com/ssltest/analyze.html?d=" + escape(oUri.hostname);
         lnkDomain.innerText = (((sProt == "http:") || (sProt =="ftp:")) ? (sProt.slice(0,-1)+"/") : "") + oUri.hostname;
 
         // https://developer.chrome.com/extensions/tabs#method-executeScript
