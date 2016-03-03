@@ -6,7 +6,7 @@ if ((sProt === "http:") || (sProt === "ftp:"))
 }
 
 chrome.storage.sync.get("bRotateNonSecureImages", function(obj) {
-    if (obj && !obj.bRotateNonSecureImages) return;
+    if (!obj || (!obj.bRotateNonSecureImages === false)) return;
     var imgs = document.querySelectorAll("img");
     for (var i = 0; i < imgs.length; i++)
     {

@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     chrome.storage.sync.get("bRotateNonSecureImages", function(obj) {
-        document.getElementById("cbRotateImages").checked = (obj && obj.bRotateNonSecureImages);
+        document.getElementById("cbRotateImages").checked = !(obj && (false === obj.bRotateNonSecureImages));
     });
 
     document.getElementById("btnSave").addEventListener('click', function() {

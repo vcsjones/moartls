@@ -64,7 +64,6 @@ function computeDisplayString(cInsecure, cTotal)
     return (cInsecure + " of " + cTotal + " links " + ((cInsecure == 1) ? "is" : "are") + " non-secure.");
 }
 
-
 // TODO: Switch to FETCH and handle cases of redirections
 function checkForHTTPS(lnk)
 {
@@ -74,9 +73,11 @@ function checkForHTTPS(lnk)
     var oReq = new XMLHttpRequest();
     oReq.addEventListener("load",  function() { 
             lnk.classList.add("isHTTPSyes");
-            var sHSTS = oReq.getResponseHeader("Strict-Transport-Security"); lnk.textContent = lnk.textContent.substring(11); 
-            lnk.title = "This URL is available via HTTPS" + ((sHSTS) ? " + HSTS!" : "."); 
-            if (sHSTS) lnk.classList.add("isHSTS"); 
+            var sHSTS = oReq.getResponseHeader("Strict-Transport-Security"); 
+            var bHSTS = sHSTS.includes("max-age=") && !sHSTS.includes("max-age=0");
+            lnk.textContent = lnk.textContent.substring(11); 
+            lnk.title = "This URL is available via HTTPS" + ((bHSTS) ? " + HSTS!" : "."); 
+            if (bHSTS) lnk.classList.add("isHSTS"); 
             }, false);
     oReq.addEventListener("error", function() { lnk.textContent = lnk.textContent.substring(11); lnk.classList.add("isHTTPSno"); lnk.title = "This URL is NOT available by simply changing the protocol to HTTPS."; }, false);
     var oUri = document.createElement("a");
@@ -88,7 +89,6 @@ function checkForHTTPS(lnk)
     oReq.open("HEAD", oUri.href, true);
     oReq.send();
 }
-
 
 var cTotalLinks = 0;
 var cTotalUnsecure = 0;
