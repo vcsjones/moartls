@@ -5,6 +5,17 @@ if ((sProt === "http:") || (sProt === "ftp:"))
     document.body.style.backgroundColor="#E04343";
 }
 
+chrome.storage.sync.get("bRotateNonSecureImages", function(obj) {
+    if (obj && !obj.bRotateNonSecureImages) return;
+    var imgs = document.querySelectorAll("img");
+    for (var i = 0; i < imgs.length; i++)
+    {
+        if (imgs[i].src.substring(0,5) === "http:") {
+            imgs[i].style.transform="rotate(180deg)";
+        }
+    }
+});
+
 var lnks = document.querySelectorAll("a[href]");
 var arrUnsecure = [];
 var cLinks = 0;

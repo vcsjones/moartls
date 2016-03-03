@@ -5,17 +5,22 @@
     <link rel="stylesheet" href="assets/styles-options.css" type="text/css" media="all" />
     <title>moarTLS Options</title>
     <script defer type="text/javascript" src="options.js"></script>
-    
+    <style>
+        body: { padding: 15px; }
+        a { text-decoration: none; }
+    </style>
 </head>
 
 <body>
+    
     <p>
-    Alt+Click non-secure links in the report to check whether HTTPS is available.
-    </p>
-    <p>
-    Sorry, there are no options to show here (yet).
+    <input type=checkbox id="cbRotateImages">Flip insecurely-delivered images</input>
     </p>
 
-   <a style="display:none" href="#" id="btnSave" class="btn primary"><span><span>Apply changes</span></span></a>
+    <a href="#" id="btnSave" class="btn primary"><span><span>Save</span></span></a><span style="padding-left: 20px" id="txtStatus"></span>
 
+    <hr style="margin: 15px 0px 15px 0px;" />
+    <p>
+        Alt+Click non-secure links in the report to check whether HTTPS is available.
+    </p>
 </body>

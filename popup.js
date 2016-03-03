@@ -118,7 +118,7 @@ chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {
         listItem.appendChild(text);
         listItem.addEventListener('click', function(e) { 
 
-            if (e.altKey || (1 == e.button))
+            if ((e.altKey || e.ctrlKey) || (1 == e.button))
             {
                 checkForHTTPS(this);
                 return;

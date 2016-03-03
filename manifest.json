@@ -3,7 +3,7 @@
   "name": "moarTLS Analyzer",
   "short_name": "moarTLS",
   "description": "Analyzes webpages for non-secure link references.",
-  "version": "0.1.1.1",
+  "version": "0.1.1.2",
   "author": "Eric Lawrence (@ericlaw)",
   "options_ui": {
     "page": "options.html",
@@ -35,6 +35,7 @@
 
   "permissions": [
     "activeTab",
+    "storage",
     "<all_urls>",
     "downloads"
    ]
