@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 //    document.getElementById('lnkCopy').addEventListener('click', function() {}    }, false);
 
-
     chrome.tabs.query({active: true, currentWindow: true /**/ }, function(activeTabs) {
         if (activeTabs.length < 1) return; // impossible?
             /*for (var i=0; i<activeTabs.length; i++) {
@@ -74,12 +73,15 @@ function checkForHTTPS(lnk)
     oReq.addEventListener("load",  function() { 
             lnk.classList.add("isHTTPSyes");
             var sHSTS = oReq.getResponseHeader("Strict-Transport-Security"); 
-            var bHSTS = sHSTS.includes("max-age=") && !sHSTS.includes("max-age=0");
+            var bHSTS = sHSTS && sHSTS.includes("max-age=") && !sHSTS.includes("max-age=0");
             lnk.textContent = lnk.textContent.substring(11); 
             lnk.title = "This URL is available via HTTPS" + ((bHSTS) ? " + HSTS!" : "."); 
             if (bHSTS) lnk.classList.add("isHSTS"); 
             }, false);
-    oReq.addEventListener("error", function() { lnk.textContent = lnk.textContent.substring(11); lnk.classList.add("isHTTPSno"); lnk.title = "This URL is NOT available by simply changing the protocol to HTTPS."; }, false);
+
+    var fnErr = function() { lnk.textContent = lnk.textContent.substring(11); lnk.classList.add("isHTTPSno"); lnk.title = "This URL is NOT available by simply changing the protocol to HTTPS."; };
+    oReq.addEventListener("error", fnErr, false);
+    oReq.addEventListener("timeout", fnErr, false);
     var oUri = document.createElement("a");
     oUri.href = lnk.textContent;
     oUri.protocol = "https:";
@@ -87,6 +89,7 @@ function checkForHTTPS(lnk)
     // TODO: Path encoding?
     lnk.textContent = "[Checking] " + lnk.textContent;
     oReq.open("HEAD", oUri.href, true);
+    oReq.timeout = 5000;
     oReq.send();
 }
 
