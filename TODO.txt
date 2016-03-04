@@ -1,7 +1,5 @@
-1. Check for FORMS
-2. Flag/flip insecure images
-3. Add NOSY image
-4. Hash file downloads (https://developer.chrome.com/extensions/nativeMessaging#native-messaging-host)
+0. Inject NOSY image?
+1. Hash file downloads (https://developer.chrome.com/extensions/nativeMessaging#native-messaging-host)
 
 You should always provide a 128x128 icon; it's used during installation and by the Chrome Web Store. 
 Extensions should also provide a 48x48 icon, which is used in the extensions management page (chrome://extensions). 

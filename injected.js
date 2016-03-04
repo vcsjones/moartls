@@ -16,9 +16,29 @@ chrome.storage.sync.get("bRotateNonSecureImages", function(obj) {
     }
 });
 
-var lnks = document.querySelectorAll("a[href]");
 var arrUnsecure = [];
 var cLinks = 0;
+
+var forms = document.querySelectorAll("form[action]");
+for (var i = 0; i < forms.length; i++) {
+  var thisForm = forms[i];
+  if (thisForm.getAttribute("action")[0] === "#") continue; // Not a cross-page 'action'
+  cLinks++;
+  var sUri = thisForm.action.toLowerCase();
+  if (sUri.startsWith("http:"))
+  {
+    arrUnsecure.push(sUri);
+    thisForm.style.backgroundColor = "rgba(222, 106, 106, 0.6)";
+    thisForm.style.borderRadius = "4px";
+    thisForm.style.border = "2px dashed red";
+    thisForm.style.padding = "6px 6px 6px 6px";
+    thisForm.style.margin = "3px 3px 3px 3px";
+    thisForm.title = "Form target is: " + sUri;
+  }
+}
+
+var lnks = document.querySelectorAll("a[href]");
+
 for (var i = 0; i < lnks.length; i++) {
   var thisLink = lnks[i];
   if (thisLink.getAttribute("href")[0] === "#") continue; // Not a cross-page 'link'
