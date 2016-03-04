@@ -91,7 +91,11 @@ function checkForHTTPS(lnk)
     var oUri = document.createElement("a");
     oUri.href = lnk.textContent;
     oUri.protocol = "https:";
-    // TODO: Should we wipe the path to prevent cases where e.g. a HEAD example.com/logout isn't idempotent?
+
+    // Wipe path entirely to prevent cases where e.g. a HEAD example.com/buy 
+    // isn't idempotent    // if (oUri.pathname.includes("logout"))
+    oUri.pathname = "/";
+
     // TODO: Path encoding?
     lnk.textContent = "[Checking] " + lnk.textContent;
     oReq.open("HEAD", oUri.href, true);
