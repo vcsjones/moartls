@@ -8,16 +8,26 @@
     <style>
         body: { padding: 15px; }
         a { text-decoration: none; }
+        label { -webkit-user-select: none; 
+                  cursor: pointer;
+                  padding-bottom: 7px;
+                  padding-top: 7px;
+              }
+        input[type=checkbox] {
+            margin-right:5px;
+        }
     </style>
 </head>
 
 <body>
 
     <p>
-    <input type=checkbox id="cbRotateImages">Flip insecurely-delivered images</input>
+    <label for="cbRotateImages"><input type=checkbox id="cbRotateImages" />Flip insecurely-delivered images</label><br />
+    <label for="cbWarnOnNonSecureDownloads"><input type=checkbox id="cbWarnOnNonSecureDownloads" />Warn on non-secure downloads<label>
     </p>
 
-    <a href="#" id="btnSave" class="btn primary"><span><span>Save</span></span></a><span style="padding-left: 20px" id="txtStatus"></span>
+    <!--a href="#" id="btnSave" class="btn primary"><span><span>Save</span></span></a -->
+    <div style="text-align: center;" id="txtStatus">&nbsp;</div>
 
     <hr style="margin: 15px 0px 15px 0px;" />
     <p>

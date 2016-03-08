@@ -114,7 +114,7 @@ chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {
 
     document.getElementById("txtStatus").innerText = computeDisplayString(cTotalUnsecure, cTotalLinks);
 
-    document.body.style.backgroundColor = (bAnyInsecure) ? "#FEE696" : "#68FF68";
+    document.body.style.backgroundColor = (bAnyInsecure) ? "#FFCD41" : "#68FF68";
     //alert(bAnyInsecure + " " + cTotalUnsecure + " " + document.body.style.backgroundColor);
 
     var listUnsecure = document.getElementById("olUnsecureList");
