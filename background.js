@@ -10,9 +10,11 @@ chrome.downloads.onCreated.addListener(function(item) {
     if (item.state == "in_progress") {
         chrome.storage.sync.get("bWarnOnNonSecureDownloads", function(obj) {
             if (!(obj && (true === obj.bWarnOnNonSecureDownloads))) return;
-            if (item.url.substring(0, 5) == "http:")
+            if ((item.url.substring(0, 5) == "http:") || 
+                (item.referrer && item.referrer.substring(0, 5) == "http:"))
             {
-                alert("Non-secure download of: \n\n  " + item.url + "\n  " + item.referrer);
+                var sReferer = (item.referrer) ? ("\n\nvia\n\n  " + item.referrer) : "";
+                alert("Download of: \n\n  " + item.url + sReferer + "\n");
             }
         });
     }
