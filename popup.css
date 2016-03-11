@@ -1,5 +1,5 @@
 html { width:400px; height:200px;}
-body { padding: 4px; margin: 2px;  }
+body { padding: 4px; margin: 2px; }
 h1 { text-align: center; padding: 2px; margin: 0px; }
 a { font-family: Verdana; font-size:large; text-decoration:none; }
 a:hover { text-decoration: underline }
@@ -9,4 +9,7 @@ ol { padding-left: 2px; list-style: inside decimal; }
 .isHTTPSyes { color: #2CB144; list-style-image:url('HTTPSyes.png'); }
 .isHTTPSno { color: #E04343; list-style-image:url('HTTPSno.png'); }
 .isHSTS { font-weight: bold; list-style-image:url('HSTSyes.png'); }
-#lblVersion { color: grey; font-size: xx-small; text-align: right; cursor: pointer; margin-top: 20px; }
+
+#divFooter { width:100%; margin-top:20px; text-align:right; }
+#lnkUnmark { color: grey; font-size: xx-small; text-align: right; cursor: pointer; margin-right: 10px; }
+#lblVersion { width: 100%; color: grey; font-size: xx-small; text-align: right; cursor: pointer;  }

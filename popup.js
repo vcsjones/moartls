@@ -8,6 +8,14 @@ document.addEventListener('DOMContentLoaded', function() {
         lnkVersion.addEventListener("click", function() { chrome.runtime.openOptionsPage(); }, false);
     }
 
+    {
+        var lnkUnmark = document.getElementById("lnkUnmark");
+        lnkUnmark.addEventListener("click", function() { 
+            lnkUnmark.textContent = "";
+            chrome.tabs.executeScript(null, {code:"var u = document.querySelectorAll('.moarTLSUnsecure');for (var i = 0; i < u.length; i++) u[i].classList.remove('moarTLSUnsecure');", allFrames: true, runAt:"document_idle"}, null);
+        }, false);
+    }
+
     chrome.tabs.query({active: true, currentWindow: true /**/ }, function(activeTabs) {
         if (activeTabs.length < 1) return; // impossible?
             /*for (var i=0; i<activeTabs.length; i++) {
@@ -40,6 +48,14 @@ document.addEventListener('DOMContentLoaded', function() {
         lnkDomain.href = "https://dev.ssllabs.com/ssltest/analyze.html?d=" + escape(oUri.hostname);
         lnkDomain.innerText = (((sProt == "http:") || (sProt =="ftp:")) ? (sProt.slice(0,-1)+"/") : "") + oUri.hostname;
 
+        chrome.tabs.insertCSS(null, {file:"injected.css", allFrames: true, runAt:"document_idle"}, function() {
+            // If you try and inject into an extensions page or the webstore/NTP you'll get an error
+            if (chrome.runtime.lastError) {
+                // TODO: Log error in popup
+                console.log('moarTLS error injecting css : \n' + chrome.runtime.lastError.message);
+            }
+        });
+        
         // https://developer.chrome.com/extensions/tabs#method-executeScript
         // https://developer.chrome.com/extensions/content_scripts#pi
         chrome.tabs.executeScript(null, {file:"injected.js", allFrames: true, runAt:"document_idle"}, function() {

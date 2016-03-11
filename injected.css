@@ -1,0 +1,23 @@
+a.moarTLSUnsecure {
+  background: rgba(222, 106, 106, 0.6);
+  border-radius: 4px;
+  border: 2px groove red;
+  padding: 6px 6px 6px 6px;
+  margin: 3px 3px 3px 3px;
+}
+
+body.moarTLSUnsecure {
+  background: #E04343;
+}
+
+form.moarTLSUnsecure {
+  background: rgba(222, 106, 106, 0.6);
+  border-radius: 4px;
+  border: 2px dashed #B93737;
+  padding: 6px 6px 6px 6px;
+  margin: 3px 3px 3px 3px;
+}
+
+img.moarTLSUnsecure {
+  transform:rotate(180deg);
+}

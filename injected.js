@@ -2,18 +2,18 @@
 var sProt = document.location.protocol.toLowerCase();
 if ((sProt === "http:") || (sProt === "ftp:")) 
 {
-    document.body.style.backgroundColor="#E04343";
+    document.body.classList.add("moarTLSUnsecure");
 }
 
 chrome.storage.sync.get("bRotateNonSecureImages", function(obj) {
-    if (obj && (false === obj.bRotateNonSecureImages)) return;
-    var imgs = document.querySelectorAll("img");
-    for (var i = 0; i < imgs.length; i++)
-    {
-        if (imgs[i].src.substring(0,5) === "http:") {
-            imgs[i].style.transform="rotate(180deg)";
-        }
+  if (obj && (false === obj.bRotateNonSecureImages)) return;
+  var imgs = document.querySelectorAll("img");
+  for (var i = 0; i < imgs.length; i++)
+  {
+    if (imgs[i].src.substring(0,5) === "http:") {
+      imgs[i].classList.add("moarTLSUnsecure");
     }
+  }
 });
 
 var arrUnsecure = [];
@@ -28,12 +28,8 @@ for (var i = 0; i < forms.length; i++) {
   if (sUri.startsWith("http:"))
   {
     arrUnsecure.push(sUri);
-    thisForm.style.backgroundColor = "rgba(222, 106, 106, 0.6)";
-    thisForm.style.borderRadius = "4px";
-    thisForm.style.border = "2px dashed #B93737";
-    thisForm.style.padding = "6px 6px 6px 6px";
-    thisForm.style.margin = "3px 3px 3px 3px";
     thisForm.title = "Form target is: " + sUri;
+    thisForm.classList.add("moarTLSUnsecure");
   }
 }
 
@@ -46,15 +42,9 @@ for (var i = 0; i < lnks.length; i++) {
   var sProtocol = thisLink.protocol.toLowerCase();
   if ((sProtocol == "http:") || (sProtocol == "ftp:")) {
     arrUnsecure.push(thisLink.href);
-    thisLink.style.backgroundColor = "rgba(222, 106, 106, 0.6)";
-    thisLink.style.borderRadius = "4px";
-    thisLink.style.border = "2px groove red";
-    thisLink.style.padding = "6px 6px 6px 6px";
-    thisLink.style.margin = "3px 3px 3px 3px";
     thisLink.title = lnks[i].protocol + "//" + lnks[i].hostname;
+    thisLink.classList.add("moarTLSUnsecure");
   }
 }
 
-
-//https://developer.chrome.com/extensions/messaging
 chrome.runtime.sendMessage({cLinks: cLinks, unsecure: arrUnsecure }, null);
