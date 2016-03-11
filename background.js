@@ -6,7 +6,10 @@ chrome.downloads.onCreated.addListener(function(item) {
     // https://src.chromium.org/viewvc/chrome/trunk/src/chrome/common/extensions/docs/examples/api/downloads/download_manager/background.js
 
     // Note: The download manager "creates" downloads for previously-downloaded items
-    // So we actually need a different thing
+    // So we need to look for "in_progress" downloads only.
+    //
+    // TODO: Can we do anything useful with the item.mime property?
+    //
     if (item.state == "in_progress") {
         chrome.storage.sync.get("bWarnOnNonSecureDownloads", function(obj) {
             if (!(obj && (true === obj.bWarnOnNonSecureDownloads))) return;

@@ -19,7 +19,7 @@ chrome.storage.sync.get("bRotateNonSecureImages", function(obj) {
 var arrUnsecure = [];
 var cLinks = 0;
 
-var forms = document.querySelectorAll("form[action]");
+var forms = document.querySelectorAll("* /deep/ form[action]");
 for (var i = 0; i < forms.length; i++) {
   var thisForm = forms[i];
   if (thisForm.getAttribute("action")[0] === "#") continue; // Not a cross-page 'action'
@@ -30,14 +30,14 @@ for (var i = 0; i < forms.length; i++) {
     arrUnsecure.push(sUri);
     thisForm.style.backgroundColor = "rgba(222, 106, 106, 0.6)";
     thisForm.style.borderRadius = "4px";
-    thisForm.style.border = "2px dashed red";
+    thisForm.style.border = "2px dashed #B93737";
     thisForm.style.padding = "6px 6px 6px 6px";
     thisForm.style.margin = "3px 3px 3px 3px";
     thisForm.title = "Form target is: " + sUri;
   }
 }
 
-var lnks = document.querySelectorAll("a[href]");
+var lnks = document.querySelectorAll("* /deep/ a[href]");
 
 for (var i = 0; i < lnks.length; i++) {
   var thisLink = lnks[i];
@@ -54,6 +54,7 @@ for (var i = 0; i < lnks.length; i++) {
     thisLink.title = lnks[i].protocol + "//" + lnks[i].hostname;
   }
 }
+
 
 //https://developer.chrome.com/extensions/messaging
 chrome.runtime.sendMessage({cLinks: cLinks, unsecure: arrUnsecure }, null);
