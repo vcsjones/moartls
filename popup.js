@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-//    document.getElementById('lnkCopy').addEventListener('click', function() {}    }, false);
-
     {
         var lnkVersion = document.getElementById("lblVersion");
         lnkVersion.textContent = "v"+chrome.runtime.getManifest().version;
@@ -55,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('moarTLS error injecting css : \n' + chrome.runtime.lastError.message);
             }
         });
-        
+
         // https://developer.chrome.com/extensions/tabs#method-executeScript
         // https://developer.chrome.com/extensions/content_scripts#pi
         chrome.tabs.executeScript(null, {file:"injected.js", allFrames: true, runAt:"document_idle"}, function() {
@@ -90,48 +88,68 @@ function checkForHTTPS(lnk)
 {
     if ((lnk.title.substring(0,11) == "This URL is") || 
         (lnk.title.substring(0,11) == "[Checking] ")) return;
-    lnk.title = "[Checking] Using XmlHttpRequest to check for a HTTPS version of this url...";
-    var oReq = new XMLHttpRequest();
-    oReq.addEventListener("load",  function() { 
-            lnk.classList.add("isHTTPSyes");
-            var sHSTS = oReq.getResponseHeader("Strict-Transport-Security"); 
-            var bHSTS = sHSTS && sHSTS.includes("max-age=") && !sHSTS.includes("max-age=0");
-            lnk.textContent = lnk.textContent.substring(11); 
-            lnk.title = "This URL is available via HTTPS" + ((bHSTS) ? " + HSTS!" : "."); 
-            if (bHSTS) lnk.classList.add("isHSTS"); 
-            }, false);
 
-    var fnErr = function() { lnk.textContent = lnk.textContent.substring(11); lnk.classList.add("isHTTPSno"); lnk.title = "This URL is NOT available by simply changing the protocol to HTTPS."; };
-    oReq.addEventListener("error", fnErr, false);
-    oReq.addEventListener("timeout", fnErr, false);
     var oUri = document.createElement("a");
     oUri.href = lnk.textContent;
-    oUri.protocol = "https:";
-
     // Wipe path entirely to prevent cases where e.g. a HEAD example.com/buy 
     // isn't idempotent    // if (oUri.pathname.includes("logout"))
-    oUri.pathname = "/";
+    // TODO if we ever remove this: ensure proper Path encoding when calling oReq.open
+    let sOrigin = "https://" + oUri.host +"/";
 
-    // TODO: Path encoding?
-    lnk.textContent = "[Checking] " + lnk.textContent;
-    oReq.open("HEAD", oUri.href, true);
+    var arrLI = htLinks[sOrigin];
+    for (var i=0; i < arrLI.length; i++)
+    {
+        arrLI[i].textContent = "[Checking] " + arrLI[i].textContent;
+        arrLI[i].title = "[Checking] Using XmlHttpRequest to check for a HTTPS version of this url...";
+    }
+
+    var oReq = new XMLHttpRequest();
+    oReq.addEventListener("load",  function() { 
+            var sHSTS = oReq.getResponseHeader("Strict-Transport-Security"); 
+            var bHSTS = sHSTS && sHSTS.includes("max-age=") && !sHSTS.includes("max-age=0");
+
+            for (let i=0; i < arrLI.length; i++)
+            {
+                arrLI[i].classList.add("isHTTPSyes");
+                if (bHSTS) arrLI[i].classList.add("isHSTS");
+                arrLI[i].textContent = arrLI[i].textContent.substring(11);
+                arrLI[i].title = "This URL is available via HTTPS" + ((bHSTS) ? " + HSTS!" : ".");
+            }
+    }, false);
+
+    var fnErr = function() { 
+            for (let i=0; i < arrLI.length; i++)
+            {
+                arrLI[i].classList.add("isHTTPSno");
+                arrLI[i].textContent = arrLI[i].textContent.substring(11);
+                arrLI[i].title = "This URL is NOT available by simply changing the protocol to HTTPS."; 
+            }
+    };
+
+    oReq.addEventListener("error", fnErr, false);
+    oReq.addEventListener("timeout", fnErr, false);
+
+    oReq.open("HEAD", sOrigin, true);
     oReq.timeout = 5000;
     oReq.send();
 }
 
+// Total number of elements evaluated in the page
 var cTotalLinks = 0;
+// Total number of non-secure elements in the page
 var cTotalUnsecure = 0;
+// Hashtable mapping Origin->ListItem[]
+var htLinks = {};
 
 chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {
+
     cTotalLinks += request.cLinks;
-    cTotalUnsecure += request.unsecure.length;
+    cTotalUnsecure += (request.unsecure) ? request.unsecure.length : 0;
 
     var bAnyInsecure = (cTotalUnsecure > 0);
 
     document.getElementById("txtStatus").innerText = computeDisplayString(cTotalUnsecure, cTotalLinks);
-
     document.body.style.backgroundColor = (bAnyInsecure) ? "#FFFF40" : "#68FF68";
-    //alert(bAnyInsecure + " " + cTotalUnsecure + " " + document.body.style.backgroundColor);
 
     var listUnsecure = document.getElementById("olUnsecureList");
     if (!listUnsecure)
@@ -145,6 +163,16 @@ chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {
         var listItem = document.createElement("li");
         var text = document.createTextNode(request.unsecure[i]);
         listItem.appendChild(text);
+
+        var oUri = document.createElement("a");
+        oUri.href = request.unsecure[i];
+        let sOrigin = "https://" + oUri.host +"/";
+        if (undefined === htLinks[sOrigin])
+        {
+            htLinks[sOrigin] = [];
+        }
+        htLinks[sOrigin].push(listItem);
+
         listItem.addEventListener('click', function(e) { 
 
             if ((e.altKey || e.ctrlKey) || (1 == e.button))
@@ -156,8 +184,6 @@ chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {
         }, false);
         listUnsecure.appendChild(listItem);
     }
-    /*alert(sender.tab ? "from a content script:" + sender.tab.url : "from the extension");*/
-   /* if (request.greeting == "hello") sendResponse({farewell: "goodbye"});*/
 });
 
 window.addEventListener('click', function(e) {
