@@ -4,10 +4,12 @@ a.moarTLSUnsecure {
   border: 2px groove red;
   padding: 6px 6px 6px 6px;
   margin: 3px 3px 3px 3px;
+  transition: background 1s ease;
 }
 
 body.moarTLSUnsecure {
   background: #E04343;
+  transition: background 1s ease;
 }
 
 form.moarTLSUnsecure {
@@ -16,8 +18,10 @@ form.moarTLSUnsecure {
   border: 2px dashed #B93737;
   padding: 6px 6px 6px 6px;
   margin: 3px 3px 3px 3px;
+  transition: 0.5s ease;
 }
 
 img.moarTLSUnsecure {
   transform:rotate(180deg);
+  transition: transform 0.5s ease;
 }
