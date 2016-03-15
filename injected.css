@@ -7,6 +7,10 @@ a.moarTLSUnsecure {
   transition: background 1s ease;
 }
 
+.moarTLSUnsecure img {
+  -webkit-filter:drop-shadow(4px 4px 6px red);
+}
+
 body.moarTLSUnsecure {
   background: rgba(222, 106, 106, 0.5);
   transition: background 1s ease;
