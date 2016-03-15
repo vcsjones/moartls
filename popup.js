@@ -23,12 +23,17 @@ document.addEventListener('DOMContentLoaded', function() {
             // https://developer.chrome.com/extension
             s/activeTab
             }*/
-
         let oUri = document.createElement("a");
         oUri.href = activeTabs[0].url;
         let sOrigin = "https://" + oUri.host +"/";
 
         let sProt = oUri.protocol.toLowerCase();
+
+        if ((sProt == "https:") || (sProt.indexOf("chrome") == 0))
+        {
+            document.getElementById("lnkUnmark").style.display="none";
+            document.getElementById("lnkTips").style.display="none";
+        }
 
         if (sProt.indexOf("chrome") == 0)
         {
@@ -194,7 +199,15 @@ chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {
     let bAnyInsecure = (cTotalUnsecure > 0);
 
     document.getElementById("txtStatus").innerText = computeDisplayString(cTotalUnsecure, cTotalLinks);
-    document.body.style.backgroundColor = (bAnyInsecure) ? "#FFFF40" : "#68FF68";
+    if (bAnyInsecure) {
+        document.body.style.backgroundColor = "#FFFF40";
+        document.getElementById("lnkUnmark").style.display="inline";
+        document.getElementById("lnkTips").style.display="inline";
+    }
+    else
+    {
+        document.body.style.backgroundColor = "#68FF68";
+    }
 
     let listUnsecure = document.getElementById("olUnsecureList");
     if (!listUnsecure)

@@ -8,7 +8,7 @@ a.moarTLSUnsecure {
 }
 
 body.moarTLSUnsecure {
-  background: #E04343;
+  background: rgba(222, 106, 106, 0.5);
   transition: background 1s ease;
 }
 
