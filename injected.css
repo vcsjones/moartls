@@ -1,9 +1,9 @@
 a.moarTLSUnsecure {
   background: rgba(222, 106, 106, 0.6);
-  border-radius: 4px;
-  border: 2px groove red;
-  padding: 6px 6px 6px 6px;
-  margin: 3px 3px 3px 3px;
+  border-radius: 6px;
+  border: 2px solid #DC0000;
+  padding: 4px 4px 4px 4px;
+  margin: 2px 2px 2px 2px;
   transition: background 1s ease;
 }
 
