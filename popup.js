@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let lnkUnmark = document.getElementById("lnkUnmark");
         lnkUnmark.addEventListener("click", function() { 
             lnkUnmark.textContent = "";
-            chrome.tabs.executeScript(null, {code:"let u = document.querySelectorAll('.moarTLSUnsecure');for (let i = 0; i < u.length; i++) u[i].classList.remove('moarTLSUnsecure');", allFrames: true, runAt:"document_idle"}, null);
+            chrome.tabs.executeScript(null, {code:"{let u = document.querySelectorAll('.moarTLSUnsecure');for (let i = 0; i < u.length; i++) u[i].classList.remove('moarTLSUnsecure');}", allFrames: true, runAt:"document_idle"}, null);
         }, false);
     }
 
