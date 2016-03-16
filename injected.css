@@ -1,5 +1,5 @@
 a.moarTLSUnsecure {
-  background: rgba(222, 106, 106, 0.6);
+  background: rgba(222, 106, 106, 0.6) !important;
   border-radius: 6px;
   border: 2px solid #DC0000;
   padding: 4px 4px 4px 4px;
@@ -8,16 +8,16 @@ a.moarTLSUnsecure {
 }
 
 .moarTLSUnsecure img {
-  -webkit-filter:drop-shadow(4px 4px 6px red);
+  -webkit-filter:sepia(100%) hue-rotate(270deg);
 }
 
 body.moarTLSUnsecure {
-  background: rgba(222, 106, 106, 0.5);
+  background: rgba(222, 106, 106, 0.5) !important;
   transition: background 1s ease;
 }
 
 form.moarTLSUnsecure {
-  background: rgba(222, 106, 106, 0.6);
+  background: rgba(222, 106, 106, 0.6) !important;
   border-radius: 4px;
   border: 2px dashed #B93737;
   padding: 6px 6px 6px 6px;
