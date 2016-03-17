@@ -1,3 +1,6 @@
+scroll link into view
+run CSS / HTML / Script lint
+
 0. Inject NOSY image?
 1. Hash file downloads (https://developer.chrome.com/extensions/nativeMessaging#native-messaging-host)
 

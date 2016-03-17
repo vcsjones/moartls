@@ -6,7 +6,8 @@ var cLinks = 0;
 {
     // Entire frame is insecure?
     let sProt = document.location.protocol.toLowerCase();
-    if ((sProt === "http:") || (sProt === "ftp:")) 
+    if ((document.body) && 
+        ((sProt === "http:") || (sProt === "ftp:")))
     {
         document.body.classList.add("moarTLSUnsecure");
     }
@@ -55,10 +56,8 @@ var cLinks = 0;
       }
     }
 }
-// Notify popup only if anything to report
-if (cLinks > 0)
-{
-    var obj = {cLinks: cLinks, unsecure: arrUnsecure };
-//    alert(JSON.stringify(obj));
-    chrome.runtime.sendMessage(obj, null);
-}
+
+// We always need to send a report or else popup.js
+// can't know when analysis is complete.
+var obj = {cLinks: cLinks, unsecure: arrUnsecure };
+chrome.runtime.sendMessage(obj, null);

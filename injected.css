@@ -8,7 +8,7 @@ a.moarTLSUnsecure {
 }
 
 a.moarTLSUnsecure img {
-  -webkit-filter:sepia(100%) hue-rotate(290deg);
+ -webkit-filter:sepia(1) hue-rotate(290deg);
 }
 
 body.moarTLSUnsecure {
