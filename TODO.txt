@@ -1,3 +1,30 @@
+if (typeof msBrowser !== 'undefined') {
+	chrome = msBrowser;
+}
+else if (typeof browser != 'undefined')
+{
+	chrome = browser;
+}
+
+
+
+  "minimum_edge_version": "33.14281.1000.0",
+"applications": {
+	"gecko": {
+		"id": "moarTLS@bayden.com",
+		"strict_min_version": "48.0"
+	}
+}
+
+https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Porting_from_Google_Chrome
+
+
+https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Packaging_and_installation#Loading_from_disk
+
+
+
+
+
 scroll link into view
 run CSS / HTML / Script lint
 
