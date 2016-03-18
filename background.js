@@ -1,3 +1,5 @@
+"use strict"
+
 // Background
 // https://developer.chrome.com/extensions/event_pages
 

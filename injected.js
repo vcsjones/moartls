@@ -7,27 +7,31 @@ var cLinks = 0;
     // Entire frame is insecure?
     let sProt = document.location.protocol.toLowerCase();
     if ((document.body) && 
-        ((sProt === "http:") || (sProt === "ftp:")))
-    {
-        document.body.classList.add("moarTLSUnsecure");
+        ((sProt === "http:") || (sProt === "ftp:"))) {
+          document.body.classList.add("moarTLSUnsecure");
     }
 }
 
 {
-    chrome.storage.sync.get("bRotateNonSecureImages", function(obj) {
-      if (obj && (false === obj.bRotateNonSecureImages)) return;
-      let imgs = document.querySelectorAll("img");
-      for (let i = 0; i < imgs.length; i++)
-      {
-        if (imgs[i].src.substring(0,5) === "http:") {
-          imgs[i].classList.add("moarTLSUnsecure");
-        }
-      }
-    });
+    if (chrome.storage)
+    {
+        chrome.storage.sync.get("bRotateNonSecureImages", function(obj) {
+          if (obj && (false === obj.bRotateNonSecureImages)) return;
+          let imgs = document.querySelectorAll("img");
+          for (let i = 0; i < imgs.length; i++)
+          {
+            if (imgs[i].src.substring(0,5) === "http:") {
+              imgs[i].classList.add("moarTLSUnsecure");
+            }
+          }
+        });
+    }
 }
 
 {
-    let forms = document.querySelectorAll("* /deep/ form[action]");
+    let sSelector = "* /deep/ form[action]";
+    if (typeof browser !== 'undefined') sSelector = "form[action]";
+    let forms = document.querySelectorAll(sSelector);
     for (let i = 0; i < forms.length; i++) {
       let thisForm = forms[i];
       if (thisForm.getAttribute("action")[0] === "#") continue; // Not a cross-page 'action'
@@ -43,7 +47,9 @@ var cLinks = 0;
 }
 
 {
-    let lnks = document.querySelectorAll("* /deep/ a[href]");
+    let sSelector = "* /deep/ a[href]";
+    if (typeof browser !== 'undefined') sSelector = "a[href]";
+    let lnks = document.querySelectorAll(sSelector);
     for (let i = 0; i < lnks.length; i++) {
       let thisLink = lnks[i];
       if (thisLink.getAttribute("href")[0] === "#") continue; // Not a cross-page 'link'

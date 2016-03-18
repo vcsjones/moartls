@@ -1,4 +1,4 @@
-if (typeof msBrowser !== 'undefined') { chrome = msBrowser; } else if (typeof browser != 'undefined') {	chrome = browser;} 
+if (typeof msBrowser !== 'undefined') { chrome = msBrowser; } else if (typeof browser !== 'undefined') {	chrome = browser;} 
 
 scroll link into view
 run CSS / HTML / Script lint

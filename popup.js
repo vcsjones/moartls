@@ -1,7 +1,5 @@
 "use strict";
 
-if (!chrome) chrome = browser || msBrowser || chrome;
-
 document.addEventListener('DOMContentLoaded', function() {
 
     {

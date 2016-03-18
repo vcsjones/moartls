@@ -1,5 +1,5 @@
 html { width:400px; height:auto;}
-body { padding: 4px; margin: 2px; height:auto; }
+body { width:392px; padding: 4px; margin: 2px; height:auto; }
 h1 { text-align: center; padding: 2px; margin: 0px; }
 a { font-family: Verdana; font-size:large; text-decoration:none; }
 a:hover { text-decoration: underline }
