@@ -18,25 +18,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }, false);
     }
 
-    chrome.tabs.query({active: true, currentWindow: true /**/ }, function(activeTabs) {
+    chrome.tabs.query({active: true, currentWindow: true }, function(activeTabs) {
         if (activeTabs.length < 1) return; // impossible?
-            /*for (var i=0; i<activeTabs.length; i++) {
-            alert("Tab:\n" + JSON.stringify(activeTabs[i]) + activeTabs[i].url + activeTabs[i].title);
-            // https://developer.chrome.com/extensions/tabs#type-Tab
-            // https://chrome.google.com/webstore/detail/chrome-dev-editor-develop/pnoffddplpippgcfjdhbmhkofpnaalpg?hl=en-US
-            // https://developer.chrome.com/extension
-            s/activeTab
-            }*/
+
         let oUri = document.createElement("a");
         oUri.href = activeTabs[0].url;
         let sOrigin = "https://" + oUri.host +"/";
 
         let sProt = oUri.protocol.toLowerCase();
 
-        if ((sProt == "https:") || (sProt.indexOf("chrome") == 0))
+        if ((sProt === "http:") || (sProt === "ftp:"))
         {
-            document.getElementById("lnkUnmark").style.display="none";
-            document.getElementById("lnkTips").style.display="none";
+            document.getElementById("lnkUnmark").style.display="inline";
         }
 
         if (sProt.indexOf("chrome") == 0)
@@ -64,6 +57,8 @@ document.addEventListener('DOMContentLoaded', function() {
             {
                 document.getElementById("lnkDomain").classList.add("pageIsHTTPS");
             }
+
+            // If HTTP/HTTPS, use XHR to check for HSTS
             if ((sProt == "http:") || (sProt == "https:"))
             {
                 let oReq = new XMLHttpRequest();
@@ -94,17 +89,15 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("txtStatus").textContent = "Analyzing page elements";
 
         chrome.tabs.insertCSS(null, {file:"injected.css", allFrames: true, runAt:"document_idle"}, function() {
-            // If you try and inject into an extensions page or the webstore/NTP you'll get an error
+            // If you try to inject into an extensions page or the webstore/NTP you'll get an error
             if (chrome.runtime.lastError) {
                 // TODO: Log error in popup
                 console.log('moarTLS error injecting css : \n' + chrome.runtime.lastError.message);
             }
         });
 
-        // https://developer.chrome.com/extensions/tabs#method-executeScript
-        // https://developer.chrome.com/extensions/content_scripts#pi
         chrome.tabs.executeScript(null, {file:"injected.js", allFrames: true, runAt:"document_idle"}, function() {
-            // If you try and inject into an extensions page or the webstore/NTP you'll get an error
+            // If you try to inject into an extensions page or the webstore/NTP you'll get an error
             if (chrome.runtime.lastError) {
                 // TODO: Log error in popup
                 console.log('moarTLS error injecting script : \n' + chrome.runtime.lastError.message);
@@ -213,7 +206,10 @@ chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {
     }
     else
     {
-        document.body.style.backgroundColor = "#68FF68";
+        if (document.getElementById("lnkDomain").classList.contains("pageIsHTTPS"))
+        {
+            document.body.style.backgroundColor = "#68FF68";
+        }
     }
 
     let listUnsecure = document.getElementById("olUnsecureList");
@@ -242,6 +238,7 @@ chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {
 
             if ((e.altKey || e.ctrlKey) || (1 == e.button))
             {
+                document.getElementById("lnkTips").style.display = "none";
                 checkForHTTPS(this);
                 return;
             }
