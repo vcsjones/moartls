@@ -1,5 +1,7 @@
 "use strict";
 
+if (!chrome) chrome = browser || msBrowser || chrome;
+
 document.addEventListener('DOMContentLoaded', function() {
 
     {
@@ -62,28 +64,31 @@ document.addEventListener('DOMContentLoaded', function() {
             {
                 document.getElementById("lnkDomain").classList.add("pageIsHTTPS");
             }
-            let oReq = new XMLHttpRequest();
-            oReq.addEventListener("load",  function() { 
-                let sHSTS = oReq.getResponseHeader("Strict-Transport-Security"); 
-                let bHSTS = (sHSTS && sHSTS.includes("max-age=") && !sHSTS.includes("max-age=0"));
-                let l = document.getElementById("lnkDomain");
-                if (sProt != "https:") { l.classList.add("pageCanUpgrade"); }
-                if (bHSTS) { l.classList.add("pageIsHSTS");  l.classList.remove("pageIsHTTPS"); }
+            if ((sProt == "http:") || (sProt == "https:"))
+            {
+                let oReq = new XMLHttpRequest();
+                oReq.addEventListener("load",  function() { 
+                    let sHSTS = oReq.getResponseHeader("Strict-Transport-Security"); 
+                    let bHSTS = (sHSTS && sHSTS.includes("max-age=") && !sHSTS.includes("max-age=0"));
+                    let l = document.getElementById("lnkDomain");
+                    if (sProt != "https:") { l.classList.add("pageCanUpgrade"); }
+                    if (bHSTS) { l.classList.add("pageIsHSTS");  l.classList.remove("pageIsHTTPS"); }
 
-                let arrLI = htLinks[sOrigin];
-                markLIs(arrLI, true, bHSTS);
-            }, false);
-            let fnErr = function() {
-                document.getElementById("lnkDomain").classList.add("pageCannotUpgrade");
-                let arrLI = htLinks[sOrigin];
-                markLIs(arrLI, false, false);
-            };
-            oReq.addEventListener("error", fnErr, false);
-            oReq.addEventListener("timeout", fnErr, false);
-            oReq.open("HEAD", sOrigin, true);
-            oReq.setRequestHeader("Cache-Control", "no-cache");
-            oReq.timeout = 5000;
-            oReq.send();
+                    let arrLI = htLinks[sOrigin];
+                    markLIs(arrLI, true, bHSTS);
+                }, false);
+                let fnErr = function() {
+                    document.getElementById("lnkDomain").classList.add("pageCannotUpgrade");
+                    let arrLI = htLinks[sOrigin];
+                    markLIs(arrLI, false, false);
+                };
+                oReq.addEventListener("error", fnErr, false);
+                oReq.addEventListener("timeout", fnErr, false);
+                oReq.open("HEAD", sOrigin, true);
+                oReq.setRequestHeader("Cache-Control", "no-cache");
+                oReq.timeout = 5000;
+                oReq.send();
+            }
         }
 
         document.getElementById("txtStatus").textContent = "Analyzing page elements";
