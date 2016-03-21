@@ -15,6 +15,8 @@ ol { padding-left: 2px; list-style: inside decimal; }
 a.pageCannotUpgrade { color: black; cursor: default; text-decoration:none; }
 .pageCannotUpgrade:before { content: url('images/HTTPSno.png'); padding-right: 5px; }
 
+.scanErrorMessage { width:100%; color: grey; font-size: xx-small; }
+
 #divFooter { width:100%; margin-top:20px; text-align:right; -webkit-user-select: none;}
 #lnkTips { display: none; color: grey; font-size: xx-small; text-align: right; margin-right: 10px; }
 #lnkUnmark { display: none; color: blue; font-size: xx-small; text-align: right; cursor: pointer; margin-right: 10px; }
