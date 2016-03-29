@@ -3,7 +3,7 @@
   "name": "moarTLS Analyzer",
   "short_name": "moarTLS",
   "description": "Analyze webpages for non-secure link references.",
-  "version": "0.1.4.1",
+  "version": "0.1.4.2",
   "author": "Eric Lawrence (@ericlaw)",
   "options_ui": {
     "page": "options.html",
@@ -17,6 +17,14 @@
         "id": "moarTLS@bayden.com",
         "strict_min_version": "48.0"
     }
+  },
+
+  "commands": {
+      "_execute_browser_action": {
+        "suggested_key": {
+          "default": "Alt+M"
+        }
+      }
   },
 
   "icons": { 

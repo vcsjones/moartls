@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
         lnkDomain.href = "https://dev.ssllabs.com/ssltest/analyze.html?d=" + escape(oUri.hostname);
         lnkDomain.innerText = (((sProt == "http:") || (sProt =="ftp:")) ? (sProt.slice(0,-1)+"/") : "") + oUri.hostname;
 
-        {
+        try {
             document.getElementById("txtStatus").textContent = "Analyzing top-level page";
 
             // Mark top-level Page
@@ -69,11 +69,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 const oReq = new XMLHttpRequest();
                 oReq.addEventListener("load",  function() { 
                     const sHSTS = oReq.getResponseHeader("Strict-Transport-Security"); 
-                    const bHSTS = (sHSTS && sHSTS.includes("max-age=") && !sHSTS.includes("max-age=0"));
+                    const bHSTS = (sHSTS && sHSTS.includes("max-age=") && !sHSTS.includes("max-age=0")
+                                   && (this.responseURL.indexOf(sOrigin) === 0));       // without fetch(), we only see HSTS on final URL
+                    alert(this.responseURL + "\n" + sOrigin + "\n" + (this.responseURL.indexOf(sOrigin) === 0));
                     const l = document.getElementById("lnkDomain");
                     if (sProt != "https:") { l.classList.add("pageCanUpgrade"); }
                     if (bHSTS) { l.classList.add("pageIsHSTS");  l.classList.remove("pageIsHTTPS"); }
-
                     const arrLI = htLinks[sOrigin];
                     markLIs(arrLI, true, bHSTS);
                 }, false);
@@ -89,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 oReq.timeout = 5000;
                 oReq.send();
             }
-        }
+        } catch (e) { console.log('moarTLS Analyzer Exception: ' + e); }
 
         document.getElementById("txtStatus").textContent = "Analyzing page elements";
 
@@ -169,6 +170,14 @@ function markLIs(arrLI, bHTTPS, bHSTS)
 
 // Check a target for HTTPS/HSTS availability using XHR
 // TODO: Switch to FETCH and handle cases of redirections
+/*
+var request = new Request(sOrigin, {
+                        method: 'HEAD', 
+                        redirect: 'manual'
+                    });
+fetch(request).then( response => { alert(response.status); }).catch(() => {
+    alert('fetch failed');
+});*/
 function checkForHTTPS(lnk)
 {
     if ((lnk.title.substring(0,11) == "This URL is") || 
@@ -191,8 +200,8 @@ function checkForHTTPS(lnk)
     const oReq = new XMLHttpRequest();
     oReq.addEventListener("load",  function() { 
         const sHSTS = oReq.getResponseHeader("Strict-Transport-Security"); 
-        const bHSTS = (sHSTS && sHSTS.includes("max-age=") && !sHSTS.includes("max-age=0"));
-
+        const bHSTS = (sHSTS && sHSTS.includes("max-age=") && !sHSTS.includes("max-age=0")
+                       && (this.responseURL.indexOf(sOrigin) === 0));       // without fetch(), we only see HSTS on final URL
         markLIs(arrLI, true, bHSTS);
     }, false);
 
