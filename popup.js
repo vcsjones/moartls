@@ -51,8 +51,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const lnkDomain = document.getElementById("lnkDomain");
-        lnkDomain.href = "https://dev.ssllabs.com/ssltest/analyze.html?d=" + escape(oUri.hostname);
         lnkDomain.innerText = (((sProt == "http:") || (sProt =="ftp:")) ? (sProt.slice(0,-1)+"/") : "") + oUri.hostname;
+        if ((oUri.hostname.indexOf(".") > 0) &&
+            !(oUri.hostname === "127.0.0.1")) {
+          // Only set the HREF if SSLLabs could possibly reach reach the hostname
+          lnkDomain.href = "https://dev.ssllabs.com/ssltest/analyze.html?d=" + escape(oUri.hostname);
+        }
 
         try {
             document.getElementById("txtStatus").textContent = "Analyzing top-level page";
@@ -71,7 +75,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     const sHSTS = oReq.getResponseHeader("Strict-Transport-Security"); 
                     const bHSTS = (sHSTS && sHSTS.includes("max-age=") && !sHSTS.includes("max-age=0")
                                    && (this.responseURL.indexOf(sOrigin) === 0));       // without fetch(), we only see HSTS on final URL
-                    alert(this.responseURL + "\n" + sOrigin + "\n" + (this.responseURL.indexOf(sOrigin) === 0));
                     const l = document.getElementById("lnkDomain");
                     if (sProt != "https:") { l.classList.add("pageCanUpgrade"); }
                     if (bHSTS) { l.classList.add("pageIsHSTS");  l.classList.remove("pageIsHTTPS"); }
@@ -291,7 +294,7 @@ chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {
 });
 
 window.addEventListener('click', function(e) {
-    if ((e.target.nodeName == "A") && (e.target.href !== undefined)) {
+    if ((e.target.nodeName === "A") && e.target.href) {
         chrome.tabs.create({ url: e.target.href });
     }
 });
