@@ -1,9 +1,8 @@
 "use strict";
-
-{
+!function() {
     const arrUnsecure = [];
     let cLinks = 0;
-    
+
     {
         // Entire frame is insecure?
         const sProt = document.location.protocol.toLowerCase();
@@ -11,9 +10,7 @@
             ((sProt === "http:") || (sProt === "ftp:"))) {
               document.body.classList.add("moarTLSUnsecure");
         }
-    }
-    
-    {
+
         if (chrome.storage)
         {
             chrome.storage.sync.get("bRotateNonSecureImages", function(obj) {
@@ -28,7 +25,7 @@
             });
         }
     }
-    
+
     {
         let sSelector = "* /deep/ form[action]";
         if (typeof browser !== 'undefined') sSelector = "form[action]";
@@ -46,7 +43,7 @@
           }
         }
     }
-    
+
     {
         let sSelector = "* /deep/ a[href]";
         if (typeof browser !== 'undefined') sSelector = "a[href]";
@@ -63,9 +60,9 @@
           }
         }
     }
-    
+
     // We always need to send a report or else popup.js
     // can't know when analysis is complete.
-    const obj = {cLinks: cLinks, unsecure: arrUnsecure };
+    const obj = {cLinks: cLinks, unsecure: arrUnsecure, sUrl: document.location.href };
     chrome.runtime.sendMessage(obj, null);
-}
+}();

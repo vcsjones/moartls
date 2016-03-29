@@ -237,6 +237,9 @@ chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {
         return;
     }
 
+    // sender.url may be "about:blank" while request.sUrl shows the effective security context.
+    // if (!(sender.url === request.sUrl)) alert(sender.url + "\n" + request.sUrl);
+
     cTotalLinks += request.cLinks || 0;
     cTotalUnsecure += (request.unsecure) ? request.unsecure.length : 0;
 
