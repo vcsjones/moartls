@@ -1,6 +1,6 @@
 html { width:400px; height:auto;}
 body { width:392px; padding: 4px; margin: 2px; height:auto; }
-h1 { color: #999; text-align: right; padding-bottom: 2px; margin: 0 0 10px 0; font-size: small; border-bottom: 1px solid #ddd; }
+h1 { color: #999; text-align: right; padding: 0 6px 0 0; margin: 0 0 5px; font-size: small; border-bottom: 1px solid #ddd; }
 a { font-family: Verdana; font-size:large; text-decoration:none; }
 a:hover { text-decoration: underline }
 a:focus { text-decoration: underline; border: none; }
@@ -15,10 +15,10 @@ ol { padding-left: 2px; list-style: inside decimal; }
 a.pageCannotUpgrade { color: black; cursor: default; text-decoration:none; }
 .pageCannotUpgrade:before { content: url('images/HTTPSno.png'); padding-right: 5px; }
 ::selection { background:#C6FFDE; }
-.scanErrorMessage { width:100%; color: grey; font-size: xx-small; }
+.scanErrorMessage { width:100%; color: gray; font-size: xx-small; }
 
 #divFooter { width:100%; margin-top:20px; text-align:right; -webkit-user-select: none;}
-#lnkTips { display: none; color: grey; font-size: xx-small; text-align: right; margin-right: 10px; }
+#lnkTips { display: none; color: gray; font-size: xx-small; text-align: right; margin-right: 10px; }
 #lnkCopyForBug { display: none; color: blue; font-size: xx-small; text-align: right; cursor: pointer; margin-right: 10px; }
 #lnkUnmark { display: none; color: blue; font-size: xx-small; text-align: right; cursor: pointer; margin-right: 10px; }
 #lblVersion { width: 100%; color: blue; font-size: xx-small; text-align: right; cursor: pointer; }
