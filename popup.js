@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 oReq.timeout = 5000;
                 oReq.send();
             }
-        } catch (e) { console.log('moarTLS Analyzer Exception: ' + e); }
+        } catch (e) { chrome.runtime.sendMessage(null, {"error": e.message, "context": "initialSetup"}); }
 
         document.getElementById("txtStatus").textContent = "Analyzing page elements";
 
