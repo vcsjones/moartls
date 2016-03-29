@@ -5,11 +5,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const lnkVersion = document.getElementById("lblVersion");
         lnkVersion.textContent = "v"+chrome.runtime.getManifest().version;
         lnkVersion.addEventListener("click", function() { chrome.runtime.openOptionsPage(); }, false);
-    }
 
-    {
+        const lnkCopyForBug = document.getElementById("lnkCopyForBug");
+        lnkCopyForBug.addEventListener("click", function() { copyForBug(); }, false);
+
         const lnkUnmark = document.getElementById("lnkUnmark");
-        lnkUnmark.addEventListener("click", function() { 
+        lnkUnmark.addEventListener("click", function() {
             lnkUnmark.textContent = "";
             chrome.tabs.executeScript(null, {code:"{const u = document.querySelectorAll('.moarTLSUnsecure');for (let i = 0; i < u.length; i++) u[i].classList.remove('moarTLSUnsecure');}", allFrames: true, runAt:"document_idle"}, null);
         }, false);
@@ -110,6 +111,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     });
 }, false);
+
+function copyForBug()
+{
+    const copyFrom = document.createElement("textarea");
+
+    // TODO: Generate a proper report
+    copyFrom.textContent = document.body.textContent;
+    document.body.appendChild(copyFrom);
+    copyFrom.focus();
+    copyFrom.select();
+    document.execCommand('Copy', false, null);
+    copyFrom.remove();
+    const lnkCopyForBug = document.getElementById("lnkCopyForBug");
+    lnkCopyForBug.textContent = "copied!";
+    setTimeout(function() { lnkCopyForBug.innerHTML = "Copy"; }, 450);
+}
 
 function computeDisplayString(cInsecure, cTotal)
 {
@@ -217,6 +234,7 @@ chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {
     if (bAnyInsecure) {
         document.body.style.backgroundColor = "#FFFF40";
         document.getElementById("lnkUnmark").style.display="inline";
+        document.getElementById("lnkCopyForBug").style.display="inline";
         document.getElementById("lnkTips").style.display="inline";
     }
     else
