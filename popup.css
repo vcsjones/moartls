@@ -1,6 +1,6 @@
 html { width:400px; height:auto;}
 body { width:392px; padding: 4px; margin: 2px; height:auto; }
-h1 { text-align: center; padding-bottom: 2px; margin: 0 0 10px 0; font-size: small; border-bottom: 1px solid #ddd; }
+h1 { color: #999; text-align: right; padding-bottom: 2px; margin: 0 0 10px 0; font-size: small; border-bottom: 1px solid #ddd; }
 a { font-family: Verdana; font-size:large; text-decoration:none; }
 a:hover { text-decoration: underline }
 a:focus { text-decoration: underline; border: none; }
