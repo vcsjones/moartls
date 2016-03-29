@@ -1,6 +1,6 @@
 html { width:400px; height:auto;}
 body { width:392px; padding: 4px; margin: 2px; height:auto; }
-h1 { text-align: center; padding: 2px; margin: 0px; }
+h1 { text-align: center; padding-bottom: 2px; margin: 0 0 10px 0; font-size: small; border-bottom: 1px solid #ddd; }
 a { font-family: Verdana; font-size:large; text-decoration:none; }
 a:hover { text-decoration: underline }
 a:focus { text-decoration: underline; border: none; }
@@ -14,7 +14,7 @@ ol { padding-left: 2px; list-style: inside decimal; }
 .pageCanUpgrade:before { content: url('images/HTTPSyes.png'); padding-right: 5px; }
 a.pageCannotUpgrade { color: black; cursor: default; text-decoration:none; }
 .pageCannotUpgrade:before { content: url('images/HTTPSno.png'); padding-right: 5px; }
-
+::selection { background:#C6FFDE; }
 .scanErrorMessage { width:100%; color: grey; font-size: xx-small; }
 
 #divFooter { width:100%; margin-top:20px; text-align:right; -webkit-user-select: none;}
