@@ -16,10 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
 }, false);
 
 function saveChanges() {
-    let status = document.getElementById("txtStatus");
+    const status = document.getElementById("txtStatus");
     status.textContent = "Saving...";
-    let cbRotateImages = document.getElementById("cbRotateImages");
-    let cbWarnOnNonSecureDownloads = document.getElementById("cbWarnOnNonSecureDownloads");
+    const cbRotateImages = document.getElementById("cbRotateImages");
+    const cbWarnOnNonSecureDownloads = document.getElementById("cbWarnOnNonSecureDownloads");
     chrome.storage.sync.set({"bRotateNonSecureImages": cbRotateImages.checked, 
                              "bWarnOnNonSecureDownloads": cbWarnOnNonSecureDownloads.checked}, null);
 

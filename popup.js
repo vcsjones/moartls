@@ -3,27 +3,27 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     {
-        let lnkVersion = document.getElementById("lblVersion");
+        const lnkVersion = document.getElementById("lblVersion");
         lnkVersion.textContent = "v"+chrome.runtime.getManifest().version;
         lnkVersion.addEventListener("click", function() { chrome.runtime.openOptionsPage(); }, false);
     }
 
     {
-        let lnkUnmark = document.getElementById("lnkUnmark");
+        const lnkUnmark = document.getElementById("lnkUnmark");
         lnkUnmark.addEventListener("click", function() { 
             lnkUnmark.textContent = "";
-            chrome.tabs.executeScript(null, {code:"{let u = document.querySelectorAll('.moarTLSUnsecure');for (let i = 0; i < u.length; i++) u[i].classList.remove('moarTLSUnsecure');}", allFrames: true, runAt:"document_idle"}, null);
+            chrome.tabs.executeScript(null, {code:"{const u = document.querySelectorAll('.moarTLSUnsecure');for (let i = 0; i < u.length; i++) u[i].classList.remove('moarTLSUnsecure');}", allFrames: true, runAt:"document_idle"}, null);
         }, false);
     }
 
     chrome.tabs.query({active: true, currentWindow: true }, function(activeTabs) {
         if (activeTabs.length < 1) return; // impossible?
 
-        let oUri = document.createElement("a");
+        const oUri = document.createElement("a");
         oUri.href = activeTabs[0].url;
-        let sOrigin = "https://" + oUri.host +"/";
+        const sOrigin = "https://" + oUri.host +"/";
 
-        let sProt = oUri.protocol.toLowerCase();
+        const sProt = oUri.protocol.toLowerCase();
 
         if ((sProt === "http:") || (sProt === "ftp:"))
         {
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        let lnkDomain = document.getElementById("lnkDomain");
+        const lnkDomain = document.getElementById("lnkDomain");
         lnkDomain.href = "https://dev.ssllabs.com/ssltest/analyze.html?d=" + escape(oUri.hostname);
         lnkDomain.innerText = (((sProt == "http:") || (sProt =="ftp:")) ? (sProt.slice(0,-1)+"/") : "") + oUri.hostname;
 
@@ -59,20 +59,20 @@ document.addEventListener('DOMContentLoaded', function() {
             // If HTTP/HTTPS, use XHR to check for HSTS
             if ((sProt == "http:") || (sProt == "https:"))
             {
-                let oReq = new XMLHttpRequest();
+                const oReq = new XMLHttpRequest();
                 oReq.addEventListener("load",  function() { 
-                    let sHSTS = oReq.getResponseHeader("Strict-Transport-Security"); 
-                    let bHSTS = (sHSTS && sHSTS.includes("max-age=") && !sHSTS.includes("max-age=0"));
-                    let l = document.getElementById("lnkDomain");
+                    const sHSTS = oReq.getResponseHeader("Strict-Transport-Security"); 
+                    const bHSTS = (sHSTS && sHSTS.includes("max-age=") && !sHSTS.includes("max-age=0"));
+                    const l = document.getElementById("lnkDomain");
                     if (sProt != "https:") { l.classList.add("pageCanUpgrade"); }
                     if (bHSTS) { l.classList.add("pageIsHSTS");  l.classList.remove("pageIsHTTPS"); }
 
-                    let arrLI = htLinks[sOrigin];
+                    const arrLI = htLinks[sOrigin];
                     markLIs(arrLI, true, bHSTS);
                 }, false);
-                let fnErr = function() {
+                const fnErr = function() {
                     document.getElementById("lnkDomain").classList.add("pageCannotUpgrade");
-                    let arrLI = htLinks[sOrigin];
+                    const arrLI = htLinks[sOrigin];
                     markLIs(arrLI, false, false);
                 };
                 oReq.addEventListener("error", fnErr, false);
@@ -149,29 +149,29 @@ function checkForHTTPS(lnk)
     if ((lnk.title.substring(0,11) == "This URL is") || 
         (lnk.title.substring(0,11) == "[Checking] ")) return;
 
-    let oUri = document.createElement("a");
+    const oUri = document.createElement("a");
     oUri.href = lnk.textContent;
     // Wipe path entirely to prevent cases where e.g. a HEAD example.com/buy 
     // isn't idempotent    // if (oUri.pathname.includes("logout"))
     // TODO if we ever remove this: ensure proper Path encoding when calling oReq.open
-    let sOrigin = "https://" + oUri.host +"/";
+    const sOrigin = "https://" + oUri.host +"/";
 
-    let arrLI = htLinks[sOrigin];
+    const arrLI = htLinks[sOrigin];
     for (let i=0; i < arrLI.length; i++)
     {
         arrLI[i].textContent = "[Checking] " + arrLI[i].textContent;
         arrLI[i].title = "[Checking] Using XmlHttpRequest to check for a HTTPS version of this url...";
     }
 
-    let oReq = new XMLHttpRequest();
+    const oReq = new XMLHttpRequest();
     oReq.addEventListener("load",  function() { 
-        let sHSTS = oReq.getResponseHeader("Strict-Transport-Security"); 
-        let bHSTS = (sHSTS && sHSTS.includes("max-age=") && !sHSTS.includes("max-age=0"));
+        const sHSTS = oReq.getResponseHeader("Strict-Transport-Security"); 
+        const bHSTS = (sHSTS && sHSTS.includes("max-age=") && !sHSTS.includes("max-age=0"));
 
         markLIs(arrLI, true, bHSTS);
     }, false);
 
-    let fnErr = function() { markLIs(arrLI, false, false); };
+    const fnErr = function() { markLIs(arrLI, false, false); };
 
     oReq.addEventListener("error", fnErr, false);
     oReq.addEventListener("timeout", fnErr, false);
@@ -194,7 +194,7 @@ chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {
     cTotalLinks += request.cLinks;
     cTotalUnsecure += (request.unsecure) ? request.unsecure.length : 0;
 
-    let bAnyInsecure = (cTotalUnsecure > 0);
+    const bAnyInsecure = (cTotalUnsecure > 0);
 
     document.getElementById("txtStatus").innerText = computeDisplayString(cTotalUnsecure, cTotalLinks);
     if (bAnyInsecure) {
@@ -219,13 +219,13 @@ chrome.runtime.onMessage.addListener( function(request, sender, sendResponse) {
     }
 
     for (let i=0; i < request.unsecure.length; i++) {
-        let listItem = document.createElement("li");
-        let text = document.createTextNode(request.unsecure[i]);
+        const listItem = document.createElement("li");
+        const text = document.createTextNode(request.unsecure[i]);
         listItem.appendChild(text);
 
-        let oUri = document.createElement("a");
+        const oUri = document.createElement("a");
         oUri.href = request.unsecure[i];
-        let sOrigin = "https://" + oUri.host +"/";
+        const sOrigin = "https://" + oUri.host +"/";
         if (undefined === htLinks[sOrigin])
         {
             htLinks[sOrigin] = [];
