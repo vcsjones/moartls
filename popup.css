@@ -19,6 +19,6 @@ a.pageCannotUpgrade { color: black; cursor: default; text-decoration:none; }
 
 #divFooter { width:100%; margin-top:20px; text-align:right; -webkit-user-select: none;}
 #lnkTips { display: none; color: grey; font-size: xx-small; text-align: right; margin-right: 10px; }
-#lnkUnmark { display: none; color: blue; font-size: xx-small; text-align: right; cursor: pointer; margin-right: 10px; }
 #lnkCopyForBug { display: none; color: blue; font-size: xx-small; text-align: right; cursor: pointer; margin-right: 10px; }
+#lnkUnmark { display: none; color: blue; font-size: xx-small; text-align: right; cursor: pointer; margin-right: 10px; }
 #lblVersion { width: 100%; color: blue; font-size: xx-small; text-align: right; cursor: pointer; }
