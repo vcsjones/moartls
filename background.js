@@ -24,3 +24,15 @@ chrome.downloads.onCreated.addListener(function(item) {
         });
     }
 });
+
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    chrome.browserAction.setBadgeText({
+        "text": request.unsecure.length.toString(),
+        "tabId": sender.tab.id
+    });   
+    chrome.browserAction.setBadgeBackgroundColor({
+        "color": request.unsecure.length > 0 ? "#E04343" : "#2CB144",
+        "tabId": sender.tab.id
+    });
+});

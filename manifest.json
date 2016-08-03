@@ -53,5 +53,13 @@
     "storage",
     "<all_urls>",
     "downloads"
+  ],
+  "content_scripts": [
+      {
+          "matches": ["*://*.upside.com/*"],
+          "js": ["content.js"],
+          "run_at": "document_end",
+          "all_frames": true
+      }
   ]
 }
