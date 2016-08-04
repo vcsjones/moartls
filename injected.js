@@ -1,10 +1,5 @@
 "use strict";
 !function() {
-    const arrUnsecure = [];
-    let cLinks = 0;
-
-    try
-    {
         {
             // Entire frame is insecure?
             const sProt = document.location.protocol.toLowerCase();
@@ -36,7 +31,6 @@
               const thisForm = forms[i];
 
               if (thisForm.getAttribute("action")[0] === "#") continue; // Not a cross-page 'action'
-              cLinks++;
 
               let act = thisForm.action;
               if (!act) continue;
@@ -50,9 +44,7 @@
               }
 
               const sUri = act.toLowerCase();
-              if (sUri.startsWith("http:"))
-              {
-                arrUnsecure.push(sUri);
+              if (sUri.startsWith("http:")) {
                 thisForm.title = "Form target is: " + sUri;
                 thisForm.classList.add("moarTLSUnsecure");
               }
@@ -66,24 +58,11 @@
             for (let i = 0; i < lnks.length; i++) {
               const thisLink = lnks[i];
               if (thisLink.getAttribute("href")[0] === "#") continue; // Not a cross-page 'link'
-              cLinks++;
               const sProtocol = thisLink.protocol.toLowerCase();
               if ((sProtocol == "http:") || (sProtocol == "ftp:")) {
-                arrUnsecure.push(thisLink.href);
                 thisLink.title = lnks[i].protocol + "//" + lnks[i].hostname;
                 thisLink.classList.add("moarTLSUnsecure");
               }
             }
         }
-
-        // We always need to send a report or else popup.js
-        // can't know when analysis is complete.
-        const obj = {cLinks: cLinks, unsecure: arrUnsecure, sUrl: document.location.href };
-        chrome.runtime.sendMessage(obj, null);
-    }
-    catch (e)
-    {
-        const obj = { "error": e.message, "context": "injectedScript" };
-        chrome.runtime.sendMessage(obj, null);
-    }
 }();

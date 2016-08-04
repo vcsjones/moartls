@@ -6,29 +6,6 @@
     try
     {
         {
-            // Entire frame is insecure?
-            const sProt = document.location.protocol.toLowerCase();
-            if ((document.body) && 
-                ((sProt === "http:") || (sProt === "ftp:"))) {
-                  document.body.classList.add("moarTLSUnsecure");
-            }
-
-            if (chrome.storage)
-            {
-                chrome.storage.sync.get("bRotateNonSecureImages", function(obj) {
-                  if (obj && (false === obj.bRotateNonSecureImages)) return;
-                  const imgs = document.querySelectorAll("img");
-                  for (let i = 0; i < imgs.length; i++)
-                  {
-                    if (imgs[i].src.substring(0,5) === "http:") {
-                      imgs[i].classList.add("moarTLSUnsecure");
-                    }
-                  }
-                });
-            }
-        }
-
-        {
             let sSelector = "* /deep/ form[action]";
             if (typeof browser !== 'undefined') sSelector = "form[action]";
             const forms = document.querySelectorAll(sSelector);
@@ -53,8 +30,6 @@
               if (sUri.startsWith("http:"))
               {
                 arrUnsecure.push(sUri);
-                thisForm.title = "Form target is: " + sUri;
-                thisForm.classList.add("moarTLSUnsecure");
               }
             }
         }
@@ -70,8 +45,6 @@
               const sProtocol = thisLink.protocol.toLowerCase();
               if ((sProtocol == "http:") || (sProtocol == "ftp:")) {
                 arrUnsecure.push(thisLink.href);
-                thisLink.title = lnks[i].protocol + "//" + lnks[i].hostname;
-                thisLink.classList.add("moarTLSUnsecure");
               }
             }
         }
@@ -80,6 +53,11 @@
         // can't know when analysis is complete.
         const obj = {cLinks: cLinks, unsecure: arrUnsecure, sUrl: document.location.href };
         chrome.runtime.sendMessage(obj, null);
+        chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+        if (request === "elements") {
+            sendResponse(obj);
+        }
+    });
     }
     catch (e)
     {
